@@ -3,15 +3,29 @@ import { StyleSheet, View } from 'react-native';
 import PlaceList from './components/PlaceList/PlaceList';
 import InputPlace from './components/InputPlace/InputPlace';
 import PlaceDetail from './components/PlaceDetail/PlaceDetail';
+import { connect } from 'react-redux';
+import { addPlace, deletePlace } from './redux/actionCreators';
+
+const mapStateToProps = state => {
+    return {
+        placeList: state.placeList
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addPlace: place => dispatch(addPlace(place)),
+        deletePlace: key => dispatch(deletePlace(key))
+    }
+}
 
 
 const MainComponent = props => {
     const [inputValue, setInputValue] = useState("");
-    const [placeList, setPlaceList] = useState([]);
     const [selectedPlace, setSelectedPlace] = useState(null);
 
     const handleSelectedPlace = key => {
-        const place = placeList.find(place => {
+        const place = props.placeList.find(place => {
             return place.key === key;
         })
         setSelectedPlace(place);
@@ -22,10 +36,7 @@ const MainComponent = props => {
     }
 
     const handleDeleteItem = key => {
-        setPlaceList(
-            placeList.filter(place =>
-                place.key !== key)
-        );
+        props.deletePlace(key);
         setSelectedPlace(null);
     }
 
@@ -42,13 +53,14 @@ const MainComponent = props => {
             <InputPlace
                 inputValue={inputValue}
                 setInputValue={setInputValue}
-                placeList={placeList}
-                setPlaceList={setPlaceList}
+                placeList={props.placeList}
+                addPlace={props.addPlace}
             />
-            <PlaceList placeList={placeList} handleSelectedPlace={handleSelectedPlace} />
+            <PlaceList placeList={props.placeList} handleSelectedPlace={handleSelectedPlace} />
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -60,4 +72,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export default MainComponent;
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainComponent);
