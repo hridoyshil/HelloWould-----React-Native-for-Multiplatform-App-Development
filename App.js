@@ -8,14 +8,7 @@ export default function App() {
   }
   return (
     <View style={styles.container}>
-      <Text>Hello World!</Text>
-      <Text>My First React Native App</Text>
-      <TextInput
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-        placeholder="I am placeholder"
-        onChangeText={text => handleInputChange(text)}
-      />
-      <StatusBar style="auto" />
+      <Text style={{ color: "red" }}>Hello World!</Text>
     </View>
   );
 }
@@ -27,4 +20,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  textStyle: {
+    color: "red"
+  }
+
 });
+
