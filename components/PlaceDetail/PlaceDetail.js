@@ -2,14 +2,16 @@ import React from 'react';
 import { View, Modal, Image, Text, Button } from 'react-native';
 
 const PlaceDetail = props => {
-    return (<Modal>
-        <View>
-            <Text></Text>
+    return (
+        <Modal>
             <View>
-                <Button />
+                <Text>{props.place.value}</Text>
+                <View>
+                    <Button title="Delete" />
+                </View>
             </View>
-        </View>
-    </Modal>)
+        </Modal>
+    )
 }
 
 export default PlaceDetail;
