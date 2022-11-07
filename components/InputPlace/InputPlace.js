@@ -19,7 +19,14 @@ const InputPlace = props => {
                 title="Add"
                 onPress={() => {
                     if (props.inputValue !== "") {
-                        props.setPlaceList([...props.placeList, { key: Math.random().toString(), value: props.inputValue }])
+                        props.setPlaceList([...props.placeList, {
+                            key: Math.random().toString(),
+                            value: props.inputValue,
+                            image: {
+                                uri: "https://cdn.britannica.com/97/189797-050-1FC0041B/Night-view-Dhaka-Bangladesh.jpg"
+                            }
+                        }]);
+                        props.setInputValue("");
                     }
                 }}
             />
