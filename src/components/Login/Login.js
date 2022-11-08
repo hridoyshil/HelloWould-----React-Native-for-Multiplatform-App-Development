@@ -7,7 +7,11 @@ const Login = props => {
             <Text>
                 Login
             </Text>
-
+            <Button title="Login" onPress={
+                () => {
+                    props.navigation.navigate('Home')
+                }
+            } />
         </View>
     );
 }
