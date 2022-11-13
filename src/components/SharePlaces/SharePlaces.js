@@ -13,9 +13,10 @@ const mapDispatchToProps = dispatch => {
 
 const SharePlaces = props => {
     const [inputValue, setInputValue] = useState("");
+    const [image, setImage] = useState("");
     return (
         <View>
-            <PickImage />
+            <PickImage image={image} setImage={setImage} />
             <InputPlace
                 inputValue={inputValue}
                 setInputValue={setInputValue}
@@ -29,7 +30,7 @@ const SharePlaces = props => {
                         if (inputValue !== "") {
                             props.addPlace({
                                 key: Math.random().toString(),
-                                value: props.inputValue,
+                                value: inputValue,
                                 image: {
                                     uri: "https://cdn.britannica.com/97/189797-050-1FC0041B/Night-view-Dhaka-Bangladesh.jpg"
                                 }
