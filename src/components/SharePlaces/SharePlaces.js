@@ -11,9 +11,27 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
+
 const SharePlaces = props => {
     const [inputValue, setInputValue] = useState("");
     const [image, setImage] = useState("");
+
+    const handleAddingPlace = () => {
+        if (inputValue === "" || image === "") {
+            if (image === "") {
+                alert("Pick an Image")
+            }
+        } else {
+            props.addPlace({
+                key: Math.random().toString(),
+                value: inputValue,
+                image: image
+            });
+            setInputValue("");
+            setImage("");
+            props.navigation.navigate('Find Places');
+        }
+    }
     return (
         <View>
             <PickImage image={image} setImage={setImage} />
@@ -27,16 +45,7 @@ const SharePlaces = props => {
                 <Button
                     title="Add Place"
                     onPress={() => {
-                        if (inputValue !== "") {
-                            props.addPlace({
-                                key: Math.random().toString(),
-                                value: inputValue,
-                                image: {
-                                    uri: "https://cdn.britannica.com/97/189797-050-1FC0041B/Night-view-Dhaka-Bangladesh.jpg"
-                                }
-                            });
-                            setInputValue("");
-                        }
+                        handleAddingPlace();
                     }}
                 />
             </View>

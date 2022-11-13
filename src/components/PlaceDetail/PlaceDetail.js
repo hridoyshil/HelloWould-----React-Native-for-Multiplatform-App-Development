@@ -6,7 +6,7 @@ const PlaceDetail = props => {
     return (
         <Modal>
             <View>
-                <Image source={props.place.image} style={{
+                <Image source={{ uri: props.place.image }} style={{
                     width: "100%",
                     height: 300
                 }} />
