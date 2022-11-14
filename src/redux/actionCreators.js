@@ -43,3 +43,26 @@ export const deletePlace = key => {
         payload: key
     }
 }
+
+export const trySignUp = (email, password) => dispatch => {
+    fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBFZskQkSD3mNEVVWC-qVOPpjrFcZk4JMk", {
+        method: "POST",
+        body: JSON.stringify({
+            email: email,
+            password: password,
+            returnSecureToken: true
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .catch(err => {
+            console.log(err);
+            alert("Authentication Failed!");
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+        })
+
+}
