@@ -10,6 +10,32 @@ export const addPlace = place => dispatch => {
         .then(data => console.log(data));
 }
 
+export const setPlaces = places => {
+    return {
+        type: actionTypes.SET_PLACES,
+        payload: places
+    }
+}
+
+export const loadPlaces = () => dispatch => {
+    fetch("https://my-places-dcd23-default-rtdb.firebaseio.com/places.json")
+        .catch(err => {
+            alert("Something went wrong, sorry");
+            console.log(err);
+        })
+        .then(res => res.json())
+        .then(data => {
+            const places = [];
+            for (let key in data) {
+                places.push({
+                    ...data[key],
+                    key: key
+                })
+            }
+            dispatch(setPlaces(places));
+        });
+}
+
 
 export const deletePlace = key => {
     return {
