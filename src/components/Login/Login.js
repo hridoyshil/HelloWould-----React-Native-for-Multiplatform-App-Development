@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import backgroundImage from '../../images/background.jpeg';
 import { tryAuth } from '../../redux/actionCreators';
 import { connect } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
 
 const mapStateToProps = state => {
     return {
@@ -12,7 +13,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        tryAuth: (email, password, mode) => dispatch(tryAuth(email, password, mode))
+        tryAuth: (email, password, mode) => dispatch(tryAuth(email, password, mode)),
+        removeToken: () => dispatch(removeToken())
     }
 }
 
@@ -25,6 +27,19 @@ const Login = props => {
             confirmPassword: "",
         }
     })
+
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        setAuthStates({
+            ...authStates,
+            inputs: {
+                email: "",
+                password: "",
+                confirmPassword: "",
+            }
+        });
+    }, [isFocused]);
 
     const switchViews = () => {
         setAuthStates({
