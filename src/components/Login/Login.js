@@ -4,6 +4,12 @@ import backgroundImage from '../../images/background.jpeg';
 import { trySignUp } from '../../redux/actionCreators';
 import { connect } from 'react-redux';
 
+const mapStateToProps = state => {
+    return {
+        isAuth: state.isAuth
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         trySignUp: (email, password) => dispatch(trySignUp(email, password))
@@ -50,11 +56,15 @@ const Login = props => {
         if (email !== "" && password !== "") {
             if (re.test(email)) {
                 if (authStates.mode === "login") {
-                    props.navigation.navigate("Home");
+                    if (props.isAuth) {
+                        props.navigation.navigate("Home");
+                    } else {
+                        alert("Login Failed!");
+                    }
+
                 } else {
                     if (password === confirmPassword) {
                         props.trySignUp(email, password);
-                        props.navigation.navigate("Home");
                     } else {
                         alert("Password fields doesn't Match!");
                     }
@@ -152,4 +162,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import { navigate } from '../../App';
 
 export const addPlace = place => dispatch => {
     fetch("https://my-places-dcd23-default-rtdb.firebaseio.com/places.json", {
@@ -44,6 +45,12 @@ export const deletePlace = key => {
     }
 }
 
+export const authUser = () => {
+    return {
+        type: actionTypes.AUTHENTICATE_USER
+    }
+}
+
 export const trySignUp = (email, password) => dispatch => {
     fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBFZskQkSD3mNEVVWC-qVOPpjrFcZk4JMk", {
         method: "POST",
@@ -62,6 +69,12 @@ export const trySignUp = (email, password) => dispatch => {
         })
         .then(res => res.json())
         .then(data => {
+            if (data.error) {
+                alert(data.error.message);
+            } else {
+                navigate("Home");
+                dispatch(authUser());
+            }
             console.log(data)
         })
 
