@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Button, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import backgroundImage from '../../images/background.jpeg';
-import { trySignUp } from '../../redux/actionCreators';
+import { tryAuth } from '../../redux/actionCreators';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
@@ -12,7 +12,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        trySignUp: (email, password) => dispatch(trySignUp(email, password))
+        tryAuth: (email, password, mode) => dispatch(tryAuth(email, password, mode))
     }
 }
 
@@ -56,15 +56,10 @@ const Login = props => {
         if (email !== "" && password !== "") {
             if (re.test(email)) {
                 if (authStates.mode === "login") {
-                    if (props.isAuth) {
-                        props.navigation.navigate("Home");
-                    } else {
-                        alert("Login Failed!");
-                    }
-
+                    props.tryAuth(email, password, "login");
                 } else {
                     if (password === confirmPassword) {
-                        props.trySignUp(email, password);
+                        props.tryAuth(email, password, "signup");
                     } else {
                         alert("Password fields doesn't Match!");
                     }
