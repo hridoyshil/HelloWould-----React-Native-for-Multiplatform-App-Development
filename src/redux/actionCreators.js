@@ -1,8 +1,9 @@
 import * as actionTypes from './actionTypes';
 import { navigate } from '../../App';
 
-export const addPlace = place => dispatch => {
-    fetch("https://my-places-dcd23-default-rtdb.firebaseio.com/places.json", {
+export const addPlace = place => (dispatch, getState) => {
+    let token = getState().token;
+    fetch('https://my-places-dcd23-default-rtdb.firebaseio.com/places.json?auth=${token}', {
         method: "POST",
         body: JSON.stringify(place)
     })
@@ -18,8 +19,9 @@ export const setPlaces = places => {
     }
 }
 
-export const loadPlaces = () => dispatch => {
-    fetch("https://my-places-dcd23-default-rtdb.firebaseio.com/places.json")
+export const loadPlaces = () => (dispatch, getState) => {
+    let token = getState().token;
+    fetch('https://my-places-dcd23-default-rtdb.firebaseio.com/places.json?auth=${token}')
         .catch(err => {
             alert("Something went wrong, sorry");
             console.log(err);
@@ -45,12 +47,12 @@ export const deletePlace = key => {
     }
 }
 
-export const authUser = () => {
+export const authUser = token => {
     return {
-        type: actionTypes.AUTHENTICATE_USER
+        type: actionTypes.AUTHENTICATE_USER,
+        payload: token
     }
 }
-
 export const tryAuth = (email, password, mode) => dispatch => {
     let url = "";
     const API_KEY = "AIzaSyBFZskQkSD3mNEVVWC-qVOPpjrFcZk4JMk";
@@ -80,8 +82,8 @@ export const tryAuth = (email, password, mode) => dispatch => {
             if (data.error) {
                 alert(data.error.message);
             } else {
+                dispatch(authUser(data.idToken));
                 navigate("Home");
-                dispatch(authUser());
             }
             console.log(data)
         })
